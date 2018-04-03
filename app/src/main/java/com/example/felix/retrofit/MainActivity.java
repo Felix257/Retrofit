@@ -17,8 +17,6 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static com.example.felix.retrofit.GetData.BASE_URL;
-
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -42,25 +40,25 @@ public class MainActivity extends AppCompatActivity {
 
                 GetData api = retrofit.create(GetData.class);
 
-                Call<List<Hero>> call = api.getHeroes(); //uses call method in Interface
+                Call<List<Currencies>> call = api.getCurrencies(); //uses call method in Interface
 
-                //calls the list from interface using getHeroes method
-                call.enqueue(new Callback<List<Hero>>() { //after new press ctrl+space
+                //calls the list from interface using getCurrencies method
+                call.enqueue(new Callback<List<Currencies>>() { //after new press ctrl+space
                     @Override
-                    public void onResponse(Call<List<Hero>> call, Response<List<Hero>> response) {
-                        List<Hero> heroes = response.body();
+                    public void onResponse(Call<List<Currencies>> call, Response<List<Currencies>> response) {
+                        List<Currencies> currencyList = response.body();
 
-                        String [] heroNames = new String[heroes.size()];
+                        String [] currencyName = new String[currencyList.size()];
 
-                        for (int i=0; i <heroes.size(); i++){
-                            heroNames[i] = heroes.get(i).getName();  //gets desired attribute from JSON object in URL and stores into array
+                        for (int i=0; i <currencyList.size(); i++){
+                            currencyName[i] = currencyList.get(i).toString();  //gets desired attribute from JSON object in URL and stores into array
                         }
 
-                        listview.setAdapter(new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, heroNames));
+                        listview.setAdapter(new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_list_item_1, currencyName));
                     }
 
                     @Override
-                    public void onFailure(Call<List<Hero>> call, Throwable t) {
+                    public void onFailure(Call<List<Currencies>> call, Throwable t) {
                         Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
